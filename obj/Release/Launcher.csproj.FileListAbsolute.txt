@@ -1,9 +1,0 @@
-E:\Projects\GameLauncher\Launcher\bin\Release\Launcher.exe.config
-E:\Projects\GameLauncher\Launcher\bin\Release\Launcher.exe
-E:\Projects\GameLauncher\Launcher\bin\Release\Launcher.pdb
-E:\Projects\GameLauncher\Launcher\bin\Release\Xwt.dll
-E:\Projects\GameLauncher\Launcher\bin\Release\Xwt.WPF.dll
-E:\Projects\GameLauncher\Launcher\obj\Release\Launcher.csproj.CoreCompileInputs.cache
-E:\Projects\GameLauncher\Launcher\obj\Release\Launcher.csproj.CopyComplete
-E:\Projects\GameLauncher\Launcher\obj\Release\Launcher.exe
-E:\Projects\GameLauncher\Launcher\obj\Release\Launcher.pdb
