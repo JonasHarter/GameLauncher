@@ -16,7 +16,7 @@ namespace Launcher.src
 
         public Game()
         {
-
+            tags = new List<string>();
         }
 
         internal void SetImage(String path)

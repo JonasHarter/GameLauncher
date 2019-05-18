@@ -36,7 +36,9 @@ namespace Launcher.src
         private EditDialog(Game game)
         {
             if (game == null)
+            {
                 Title = "Add";
+            }
             else
             { 
                 Title = "Edit";
@@ -70,16 +72,43 @@ namespace Launcher.src
             ImageSelector.Filters.Add(new FileDialogFilter("Image files", "*.bmp;*.jpg;*.jpeg;*.png;"));
             ImageSelector.FileChanged += FileChanged;
             VBox.PackStart(ImageSelector);
+            // Tags
+            VBox tagList = new VBox();
+            tagList.PackStart(new Label("Tags:"));
+            foreach (String tag in ConfigurationData.Load().Tags)
+            {
+                var check = new CheckBox(tag);
+                if (gameToEdit != null && gameToEdit.tags.Contains(tag))
+                    check.State = CheckBoxState.On;
+                check.Toggled += CheckBoxClicked;
+                tagList.PackStart(check);
+            }
+            VBox.PackStart(tagList);
             // Buttons
             Button saveButton = new Button("Save");
             saveButton.Clicked += SaveAndCloseDialog;
             VBox.PackEnd(saveButton);
 
-            if (game != null)
+            if (gameToEdit != null)
             {
                 NameEntry.Text = game.name;
                 CommandEntry.Text = game.command;
                 ImageShow.Image = game.GetImage();
+            }
+            else
+                gameToEdit = new Game();
+        }
+
+        private void CheckBoxClicked(object sender, EventArgs e)
+        {
+            CheckBox checkBox = (CheckBox)sender;
+            if(checkBox.State == CheckBoxState.On)
+            {
+                gameToEdit.tags.Add(checkBox.Label.ToString());
+            }
+            else
+            {
+                gameToEdit.tags.Remove(checkBox.Label.ToString());
             }
         }
 
@@ -99,17 +128,16 @@ namespace Launcher.src
 
         private void SaveAndCloseDialog(object sender, EventArgs e)
         {
-            Game game = new Game();
-            if (gameToEdit != null)
+            if (GameData.getInstance().List.Contains(gameToEdit))
                 GameData.getInstance().List.Remove(gameToEdit);
-            game.name = NameEntry.Text;
-            game.command = CommandEntry.Text;
+            gameToEdit.name = NameEntry.Text;
+            gameToEdit.command = CommandEntry.Text;
             if (ImageSelector.FileName.Length == 0)
-                game.image = gameToEdit.image;
+                gameToEdit.image = gameToEdit.image;
             else
-                game.SetImage(ImageSelector.FileName);
+                gameToEdit.SetImage(ImageSelector.FileName);
             HideEditDialog(null, null);
-            GameData.getInstance().List.Add(game);
+            GameData.getInstance().List.Add(gameToEdit);
             GameData.getInstance().Save();
         }
 

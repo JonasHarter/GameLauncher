@@ -57,8 +57,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\Configuration.cs" />
+    <Compile Include="src\data\ConfigurationData.cs" />
     <Compile Include="src\data\Game.cs" />
     <Compile Include="src\data\GameData.cs" />
+    <Compile Include="src\OptionsDialog.cs" />
     <Compile Include="src\EditDialog.cs" />
     <Compile Include="src\TilePanel.cs" />
     <Compile Include="src\Launcher.cs" />

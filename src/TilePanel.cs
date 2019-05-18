@@ -28,9 +28,9 @@ namespace Launcher.src
             var add = new MenuItem("Add");
             add.Clicked += HandleAdd;
             menu.Items.Add(add);
-            //var options = new MenuItem("Options");
-            //options.Clicked += handleEdit;
-            //menu.Items.Add(options);
+            var options = new MenuItem("Options");
+            options.Clicked += HandleOptions;
+            menu.Items.Add(options);
 
         }
 
@@ -50,6 +50,11 @@ namespace Launcher.src
                 list.Add(gt);
             }
             ReorderItems(null, null);
+        }
+
+        void HandleOptions(object sender, EventArgs e)
+        {
+            OptionsDialog.ShowAddDialog();
         }
 
         void HandleAdd(object sender, EventArgs e)

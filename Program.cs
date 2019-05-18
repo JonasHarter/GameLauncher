@@ -5,6 +5,7 @@ using Xwt;
 
 namespace Launcher
 {
+    //TODO global dialog calss
     class Program
     {
         [STAThread]
