@@ -14,8 +14,7 @@ namespace Launcher
             var directory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             Directory.CreateDirectory(Path.Combine(directory, Configuration.ApplicationName));
             Application.Initialize(ToolkitType.Wpf);
-            var mainWindow = new Launcher();
-            mainWindow.Show();
+            new Launcher().Show();
             Application.Run();
         }
     }

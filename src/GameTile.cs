@@ -13,7 +13,6 @@ namespace Launcher.src
     class GameTile : VBox
     {
         private Game data;
-        private TilePanel tilePanelParent;
         private Menu menu;
 
         public GameTile(Game data)
@@ -35,22 +34,18 @@ namespace Launcher.src
             ButtonReleased += HandleButtonReleased;
         }
 
-        public void SetTilePanelParent(TilePanel tp)
-        {
-            tilePanelParent = tp;
-        }
-
         void HandleButtonReleased(object sender, ButtonEventArgs e)
         {
-            if (e.Button == PointerButton.Right)
-            {
-                e.Handled = true;
-                menu.Popup();
-            } else if (e.Button == PointerButton.Left && e.MultiplePress == 2)
+            // e.MultiplePress == 2
+            if (e.Button == PointerButton.Left)
             {
                 e.Handled = true;
                 handleLaunch(null, null);
-            }
+            } else if (e.Button == PointerButton.Right)
+            {
+                e.Handled = true;
+                menu.Popup();
+            } 
         }
 
         void handleLaunch(object sender, EventArgs e)

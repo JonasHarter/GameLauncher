@@ -76,8 +76,12 @@ namespace Launcher.src
 
         private void AddTag(object sender, EventArgs e)
         {
-            Tags.Add(NewTagEntry.Text);
-            UpdateTagList();
+            String newTag = NewTagEntry.Text;
+            if (!Tags.Contains(newTag))
+            {
+                Tags.Add(newTag);
+                UpdateTagList();
+            }
             NewTagEntry.Text = "";
         }
 

@@ -46,7 +46,6 @@ namespace Launcher.src
             foreach (Game game in tempList)
             {
                 GameTile gt = new GameTile(game);
-                gt.SetTilePanelParent(this);
                 list.Add(gt);
             }
             ReorderItems(null, null);
@@ -67,7 +66,6 @@ namespace Launcher.src
             foreach (Game game in items)
             {
                 GameTile gt = new GameTile(game);
-                gt.SetTilePanelParent(this);
                 list.Add(gt);
                 data.List.Add(game);
             }

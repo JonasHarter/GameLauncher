@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using Xwt;
 using Xwt.Drawing;
+using System.Linq;
 
 namespace Launcher.src
 {
@@ -128,16 +129,19 @@ namespace Launcher.src
 
         private void SaveAndCloseDialog(object sender, EventArgs e)
         {
-            if (GameData.getInstance().List.Contains(gameToEdit))
-                GameData.getInstance().List.Remove(gameToEdit);
             gameToEdit.name = NameEntry.Text;
             gameToEdit.command = CommandEntry.Text;
             if (ImageSelector.FileName.Length == 0)
                 gameToEdit.image = gameToEdit.image;
             else
                 gameToEdit.SetImage(ImageSelector.FileName);
+            // Clear tags
+            var newData = gameToEdit.tags.Intersect(ConfigurationData.Load().Tags).ToList();
+            gameToEdit.tags = newData;
+
             HideEditDialog(null, null);
-            GameData.getInstance().List.Add(gameToEdit);
+            if (!GameData.getInstance().List.Contains(gameToEdit))
+                GameData.getInstance().List.Add(gameToEdit);
             GameData.getInstance().Save();
         }
 

@@ -12,11 +12,10 @@ namespace Launcher
         public Launcher()
         {
             Title = Configuration.ApplicationName;
-            Width = 1280;
+            Width = 1500;
             Height = 720;
 
             this.Content = stage = new VBox();
-            stage.BackgroundColor = Color.FromName("green");
             var list = new TilePanel();
             Closed += HandleClose;
             stage.PackStart(list, true, true);
