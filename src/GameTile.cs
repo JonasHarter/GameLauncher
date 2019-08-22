@@ -34,6 +34,11 @@ namespace Launcher.src
             ButtonReleased += HandleButtonReleased;
         }
 
+        public Game getGameData()
+        {
+            return data;
+        }
+
         void HandleButtonReleased(object sender, ButtonEventArgs e)
         {
             // e.MultiplePress == 2

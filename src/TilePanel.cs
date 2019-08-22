@@ -4,20 +4,39 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using Xwt;
 using Xwt.Drawing;
+using System.Linq;
 
 namespace Launcher.src
 {
     // Holds GameTiles in horizontal lines. and scolls downward
     class TilePanel : VBox
     {
-        private  GameData data;
+        private GameData data;
         private List<GameTile> list = new List<GameTile>();
         private Table table;
         private Menu menu;
-        private int currentColumns = 0;
+        private List<String> selectedTags = new List<String>();
+        private HBox box;
+        private VBox sidebar;
 
         public TilePanel()
         {
+            box = new HBox();
+            sidebar = new VBox();
+            foreach (String tag in ConfigurationData.Load().Tags)
+            {
+                ToggleButton button = new ToggleButton(tag);
+                button.Clicked += new EventHandler(delegate (Object o, EventArgs a)
+                {
+                    if (button.Active)
+                        selectedTags.Add(button.Label);
+                    else
+                        selectedTags.Remove(button.Label);
+                    ListChanged(null, null);
+                });
+                sidebar.PackStart(button);
+            }
+
             data = GameData.getInstance();
             ListChanged(null, null);
             ReorderItems(null, null);
@@ -34,12 +53,19 @@ namespace Launcher.src
 
         }
 
+        private void Button_Clicked(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         private void ListChanged(object sender, NotifyCollectionChangedEventArgs args)
         {
             list.Clear();
             List<Game> tempList = new List<Game>();
             foreach (Game game in data.List)
             {
+                if (selectedTags.Count() > 0 && game.tags.Intersect(selectedTags).Count() == 0)
+                    continue;
                 tempList.Add(game);
             }
             tempList.Sort((tile1, tile2) => String.Compare(tile1.name, tile2.name));
@@ -76,9 +102,6 @@ namespace Launcher.src
         private void ReorderItems(object sender, EventArgs e)
         {
             int columns = Convert.ToInt32(Math.Floor((Size.Width - 50) / 460));
-            if (currentColumns == columns)
-                return;
-            currentColumns = columns;
             Clear();
             if (table != null)
                 table.Clear();
@@ -102,8 +125,11 @@ namespace Launcher.src
             ScrollView s = new ScrollView();
             s.Content = table;
             s.VerticalScrollPolicy = ScrollPolicy.Automatic;
-            s.HorizontalScrollPolicy = ScrollPolicy.Never;
-            PackStart(s, true, true);
+            s.HorizontalScrollPolicy = ScrollPolicy.Automatic;
+            box.Clear();
+            box.PackStart(sidebar);
+            box.PackStart(s, true, true);
+            PackStart(box, true, true);
         }
 
         void HandleButtonReleased(object sender, ButtonEventArgs e)
