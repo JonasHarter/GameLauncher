@@ -62,7 +62,8 @@
     <Compile Include="src\data\GameData.cs" />
     <Compile Include="src\OptionsDialog.cs" />
     <Compile Include="src\EditDialog.cs" />
-    <Compile Include="src\TilePanel.cs" />
+    <Compile Include="src\FilterableGameTiles.cs" />
+    <Compile Include="src\Widgets\TilePanel.cs" />
     <Compile Include="src\Launcher.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

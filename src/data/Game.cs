@@ -12,7 +12,6 @@ namespace Launcher.src
         public String command { get; set; }
         public byte[] image { get; set; }
         public List<String> tags { get; set; }
-        //TODO hide
 
         public Game()
         {

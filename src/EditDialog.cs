@@ -76,7 +76,7 @@ namespace Launcher.src
             // Tags
             VBox tagList = new VBox();
             tagList.PackStart(new Label("Tags:"));
-            foreach (String tag in ConfigurationData.Load().Tags)
+            foreach (String tag in ConfigurationData.getInstance().Tags)
             {
                 var check = new CheckBox(tag);
                 if (gameToEdit != null && gameToEdit.tags.Contains(tag))
@@ -136,7 +136,7 @@ namespace Launcher.src
             else
                 gameToEdit.SetImage(ImageSelector.FileName);
             // Clear tags
-            var newData = gameToEdit.tags.Intersect(ConfigurationData.Load().Tags).ToList();
+            var newData = gameToEdit.tags.Intersect(ConfigurationData.getInstance().Tags).ToList();
             gameToEdit.tags = newData;
 
             HideEditDialog(null, null);

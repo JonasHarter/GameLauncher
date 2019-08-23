@@ -11,7 +11,15 @@ namespace Launcher.src.data
 
         public List<String> Tags = new List<string>();
 
+        private static ConfigurationData Instance;
+
         private ConfigurationData() { }
+        public static ConfigurationData getInstance()
+        {
+            if (Instance == null)
+                Instance = Load();
+            return Instance;
+        }
 
         public void Save()
         {
@@ -22,7 +30,7 @@ namespace Launcher.src.data
             }
         }
 
-        public static ConfigurationData Load()
+        private static ConfigurationData Load()
         {
             try
             {
