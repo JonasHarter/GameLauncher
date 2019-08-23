@@ -55,19 +55,22 @@ namespace Launcher.Widgets
             widgetTable.Clear();
             int columnCounter = 0;
             int rowCounter = 0;
-            double rowSize = 0;
+            int maxColums = -1;
             foreach (Widget widget in widgetList)
             {
-                rowSize += widget.Size.Width + spacing;
-                if (rowSize >= scrollView.Size.Width)
+                if(maxColums < 0)
                 {
-                    columnCounter = 0;
-                    rowCounter++;
-                    rowSize = 0;
+                    maxColums = Convert.ToInt32(Size.Width / (widget.Size.Width + spacing * 2));
                 }
                 widgetTable.Add(widget, columnCounter, rowCounter);
                 columnCounter++;
+                if (columnCounter >= maxColums)
+                {
+                    columnCounter = 0;
+                    rowCounter++;
+                }
             }
+            this.QueueForReallocate();
         }
     }
 }

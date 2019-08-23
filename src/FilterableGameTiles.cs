@@ -22,7 +22,7 @@ namespace Launcher.src
         public FilterableGameTilesTile()
         {
             // Sidebar
-            foreach (String tag in ConfigurationData.Load().Tags)
+            foreach (String tag in ConfigurationData.getInstance().Tags)
             {
                 ToggleButton button = new ToggleButton(tag);
                 button.Clicked += new EventHandler(delegate (Object o, EventArgs a)
@@ -42,8 +42,11 @@ namespace Launcher.src
             gamesData = GameData.getInstance().List;
             foreach (Game game in gamesData)
             {
-                var gameTile = new GameTile(game);
-                allGameTilesList.Add(gameTile);
+                allGameTilesList.Add(new GameTile(game));
+            }
+            allGameTilesList.Sort((p1, p2) => p1.getGameData().name.CompareTo(p2.getGameData().name));
+            foreach (GameTile gameTile in allGameTilesList)
+            {
                 visibleGameTilesList.Add(gameTile);
             }
             gamesData.CollectionChanged += delegate (object sender, NotifyCollectionChangedEventArgs e)
@@ -64,7 +67,7 @@ namespace Launcher.src
             var options = new MenuItem("Options");
             options.Clicked += HandleOptions;
             menu.Items.Add(options);
-
+            ButtonReleased += HandleButtonReleased;
         }
 
         private void filterChanged()
@@ -83,11 +86,13 @@ namespace Launcher.src
 
         private void ListChanged(object sender, NotifyCollectionChangedEventArgs args)
         {
+            // Add new
             foreach (Game game in args.NewItems)
             {
                 GameTile newGameTile = new GameTile(game);
                 allGameTilesList.Add(newGameTile);
             }
+            // Remove old
             List<GameTile> removeGameTilesList = new List<GameTile>();
             foreach (Game game in args.OldItems)
             {
@@ -104,6 +109,8 @@ namespace Launcher.src
             {
                 allGameTilesList.Remove(gameTile);
             }
+            // Sort
+            allGameTilesList = allGameTilesList.OrderBy(p => p.getGameData().name).ToList();
             filterChanged();
         }
 

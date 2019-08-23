@@ -35,7 +35,7 @@ namespace Launcher.src
             activeDialog = this;
             activeDialog.Closed += HideDialog;
 
-            configurationData = ConfigurationData.Load();
+            configurationData = ConfigurationData.getInstance();
             this.Tags = configurationData.Tags;
 
             this.Content = VBox;

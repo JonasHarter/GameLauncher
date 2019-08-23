@@ -12,12 +12,13 @@ namespace Launcher.src
 {
     class GameTile : VBox
     {
-        private Game data;
+        private static GameTile lastSelectedTile;
+        private Game gameData;
         private Menu menu;
 
         public GameTile(Game data)
         {
-            this.data = data;
+            this.gameData = data;
 
             PackStart(new ImageView(data.GetImage()));
 
@@ -36,40 +37,42 @@ namespace Launcher.src
 
         public Game getGameData()
         {
-            return data;
+            return gameData;
         }
 
         void HandleButtonReleased(object sender, ButtonEventArgs e)
         {
             // e.MultiplePress == 2
-            if (e.Button == PointerButton.Left)
+            if (e.Button == PointerButton.Left && lastSelectedTile == this)
             {
                 e.Handled = true;
+                lastSelectedTile = null;
                 handleLaunch(null, null);
             } else if (e.Button == PointerButton.Right)
             {
                 e.Handled = true;
                 menu.Popup();
-            } 
+            }
+            lastSelectedTile = this;
         }
 
         void handleLaunch(object sender, EventArgs e)
         {
             try
             {
-                System.Diagnostics.Process.Start(data.command);
+                System.Diagnostics.Process.Start(gameData.command);
             }
             catch { }
         }
 
         void handleEdit(object sender, EventArgs e)
         {
-            EditDialog.ShowEditDialog(data);
+            EditDialog.ShowEditDialog(gameData);
         }
 
         void handleDelete(object sender, EventArgs e)
         {
-            GameData.getInstance().List.Remove(data);
+            GameData.getInstance().List.Remove(gameData);
             GameData.getInstance().Save();
         }
     }
