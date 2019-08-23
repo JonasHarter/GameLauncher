@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using Xwt;
 
@@ -25,7 +26,6 @@ namespace Launcher.src
 
         internal Xwt.Drawing.Image GetImage()
         {
-            var imageView = new ImageView();
             using (MemoryStream ms = new MemoryStream())
             {
                 ByteArrayToImage(image).Save(ms, System.Drawing.Imaging.ImageFormat.Png);
@@ -33,7 +33,7 @@ namespace Launcher.src
             }
         }
 
-        byte[] ImgToByteArray(Image img)
+        private byte[] ImgToByteArray(Image img)
         {
             using (MemoryStream mStream = new MemoryStream())
             {
@@ -42,7 +42,7 @@ namespace Launcher.src
             }
         }
 
-        Image ByteArrayToImage(byte[] byteArrayIn)
+        private Image ByteArrayToImage(byte[] byteArrayIn)
         {
             using (MemoryStream mStream = new MemoryStream(byteArrayIn))
             {

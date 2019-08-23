@@ -89,7 +89,7 @@ namespace Launcher.src
             visibleGameTilesList.Clear();
             foreach (GameTile gameTile in allGameTilesList)
             {
-                if ((selectedTags.Count() > 0 && gameTile.getGameData().tags.Intersect(selectedTags).Count() != selectedTags.Count()) || unsortedButton.Active && gameTile.getGameData().tags.Count() != 0)
+                if ((selectedTags.Count() > 0 && gameTile.getGameData().tags.Intersect(selectedTags).Count() == 0) || unsortedButton.Active && gameTile.getGameData().tags.Count() != 0)
                     continue;
                 visibleGameTilesList.Add(gameTile);
             }
