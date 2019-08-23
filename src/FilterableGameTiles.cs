@@ -18,23 +18,36 @@ namespace Launcher.src
         private List<String> selectedTags = new List<String>();
         private TilePanel tilePanel = new TilePanel();
         private VBox sidebar = new VBox();
+        private ToggleButton unsortedButton;
+
+        private ToggleButton createSidebarButton(String name)
+        {
+            ToggleButton button = new ToggleButton(name);
+            button.Clicked += new EventHandler(delegate (Object o, EventArgs a)
+            {
+                if (button.Active)
+                    selectedTags.Add(button.Label);
+                else
+                    selectedTags.Remove(button.Label);
+                filterChanged();
+            });
+            sidebar.PackStart(button);
+            return button;
+        }
 
         public FilterableGameTilesTile()
         {
             // Sidebar
             foreach (String tag in ConfigurationData.getInstance().Tags)
             {
-                ToggleButton button = new ToggleButton(tag);
-                button.Clicked += new EventHandler(delegate (Object o, EventArgs a)
-                {
-                    if (button.Active)
-                        selectedTags.Add(button.Label);
-                    else
-                        selectedTags.Remove(button.Label);
-                    filterChanged();
-                });
-                sidebar.PackStart(button);
+                createSidebarButton(tag);
             }
+            unsortedButton = new ToggleButton("#Untagged");
+            unsortedButton.Clicked += new EventHandler(delegate (Object o, EventArgs a)
+            {
+                filterChanged();
+            });
+            sidebar.PackStart(unsortedButton);
             PackStart(sidebar);
 
             // Data
@@ -76,7 +89,7 @@ namespace Launcher.src
             visibleGameTilesList.Clear();
             foreach (GameTile gameTile in allGameTilesList)
             {
-                if (selectedTags.Count() > 0 && gameTile.getGameData().tags.Intersect(selectedTags).Count() != selectedTags.Count())
+                if ((selectedTags.Count() > 0 && gameTile.getGameData().tags.Intersect(selectedTags).Count() != selectedTags.Count()) || unsortedButton.Active && gameTile.getGameData().tags.Count() != 0)
                     continue;
                 visibleGameTilesList.Add(gameTile);
             }
